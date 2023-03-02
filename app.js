@@ -1,4 +1,4 @@
-const http = require("http");      // create a global http object to create a node if this was ("./http.js") it will look for a local file 
+//const http = require("http");      // create a global http object to create a node if this was ("./http.js") it will look for a local file 
 
 // // this will keep on running until proceess.exit() is written
 // const server = http.createServer((req,res)=>{
@@ -99,17 +99,21 @@ const http = require("http");      // create a global http object to create a no
 
 // server.listen(3000);
 
-// video number 15 (routes.js is created now)
+// starting with express 
 
+const express=require('express');
 
-const routes=require("./routes"); // will look for a js file named routes in the app.js file
+const app = express();
 
-// //1 export
-// const server = http.createServer(routes);
+// use method is used for making middlewares
+app.use((req,res,next)=>{
+    console.log("in the middleware");
+    next();  // allows the request to continue to next middleware in the line
+});
 
-//2 export
-const server = http.createServer(routes.handler);
-console.log(routes.someText);
+app.use((req,res,next)=>{
+    console.log("in another middleware");
+    res.send({key1:8});
+});
 
-
-server.listen(3000);
+app.listen(3000);
