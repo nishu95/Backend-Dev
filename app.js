@@ -99,21 +99,50 @@
 
 // server.listen(3000);
 
-// starting with express 
+// // starting with express after insalling express by this command (npm install --save express)
+
+// const express=require('express');
+
+// const app = express();
+
+// // use method is used for making middlewares
+// app.use((req,res,next)=>{
+//     console.log("in the middleware");
+//     next();  // allows the request to continue to next middleware in the line
+// });
+
+// app.use((req,res,next)=>{
+//     console.log("in another middleware");
+//     res.send('<h1> hello from express !</h1>');
+// });
+
+// app.listen(3000);
+
+// intro to middlewares
 
 const express=require('express');
 
 const app = express();
 
+const bodyParser=require('body-parser');    // installed body praser for this (npm install --save body-parser)
+
 // use method is used for making middlewares
-app.use((req,res,next)=>{
-    console.log("in the middleware");
-    next();  // allows the request to continue to next middleware in the line
+
+app.use(bodyParser.urlencoded({extended:false}));
+
+app.use('/add-product',(req,res,next)=>{
+    console.log("in add-product middleware");
+    res.send('<form action="/product" method="POST"><input type="text" name="title" placeholder="product"><input type="text" name="size" placeholder="size"><button type="submit">Add Product</button></form>');
 });
 
-app.use((req,res,next)=>{
+app.post('/product',(req,res,next)=>{
+    console.log(req.body);
+    res.redirect("/");
+});
+
+app.use('/',(req,res,next)=>{
     console.log("in another middleware");
-    res.send({key1:8});
+    res.send('<h1> hello from express !</h1>');
 });
 
 app.listen(3000);
