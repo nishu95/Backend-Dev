@@ -118,7 +118,36 @@
 
 // app.listen(3000);
 
-// intro to middlewares
+// // intro to middlewares topic
+
+// const express=require('express');
+
+// const app = express();
+
+// const bodyParser=require('body-parser');    // installed body praser for this (npm install --save body-parser)
+
+// // use method is used for making middlewares
+
+// app.use(bodyParser.urlencoded({extended:false}));
+
+// app.use('/add-product',(req,res,next)=>{
+//     console.log("in add-product middleware");
+//     res.send('<form action="/product" method="POST"><input type="text" name="title" placeholder="product"><input type="text" name="size" placeholder="size"><button type="submit">Add Product</button></form>');
+// });
+
+// app.post('/product',(req,res,next)=>{
+//     console.log(req.body);
+//     res.redirect("/");
+// });
+
+// app.use('/',(req,res,next)=>{
+//     console.log("in another middleware");
+//     res.send('<h1> hello from express !</h1>');
+// });
+
+// app.listen(3000);
+
+// Routers and Filters Topic
 
 const express=require('express');
 
@@ -126,23 +155,21 @@ const app = express();
 
 const bodyParser=require('body-parser');    // installed body praser for this (npm install --save body-parser)
 
+const adminRoutes= require('./routes/admin');
+const storeRoutes= require('./routes/store');
+
 // use method is used for making middlewares
 
 app.use(bodyParser.urlencoded({extended:false}));
 
-app.use('/add-product',(req,res,next)=>{
-    console.log("in add-product middleware");
-    res.send('<form action="/product" method="POST"><input type="text" name="title" placeholder="product"><input type="text" name="size" placeholder="size"><button type="submit">Add Product</button></form>');
-});
+app.use('/admin',adminRoutes);
 
-app.post('/product',(req,res,next)=>{
-    console.log(req.body);
-    res.redirect("/");
-});
+app.use(storeRoutes);
 
-app.use('/',(req,res,next)=>{
-    console.log("in another middleware");
-    res.send('<h1> hello from express !</h1>');
+// for error links
+// this below code is default for app.use('/',(req,res,next)=>{});
+app.use((req,res,next)=>{   
+    res.status(404).send('<h1>Page Not Found</h1>');
 });
 
 app.listen(3000);
