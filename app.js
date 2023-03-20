@@ -153,23 +153,32 @@ const express=require('express');
 
 const app = express();
 
+const path=require('path');
+
 const bodyParser=require('body-parser');    // installed body praser for this (npm install --save body-parser)
 
 const adminRoutes= require('./routes/admin');
-const storeRoutes= require('./routes/store');
+const storeRoutes= require('./routes/shop');
+const contactRoutes= require('./routes/contact');
+const successRoutes= require('./routes/success');
 
 // use method is used for making middlewares
 
 app.use(bodyParser.urlencoded({extended:false}));
 
+app.use(express.static(path.join(__dirname,'public')));   // for css file
+
 app.use('/admin',adminRoutes);
 
 app.use(storeRoutes);
 
+app.use(contactRoutes);
+app.use(successRoutes);
+
 // for error links
 // this below code is default for app.use('/',(req,res,next)=>{});
 app.use((req,res,next)=>{   
-    res.status(404).send('<h1>Page Not Found</h1>');
+    res.status(404).sendFile(path.join(__dirname,'views','404.html'));
 });
 
 app.listen(3000);
