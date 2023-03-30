@@ -1,13 +1,10 @@
 const express = require('express');
 const path=require('path');
 const rootDir=require('../util/path');
+const controller = require('../controllers/successcontroller')
 
 const router = express.Router();
 
-router.get('/success',(req,res,next)=>{
-    console.log("in success middleware");
-    // res.send('<h1> hello from express !</h1>');
-    res.sendFile(path.join( rootDir, 'views' , 'success.html'));
-});
+router.get('/success',controller.getSuccess);
 
 module.exports = router;
