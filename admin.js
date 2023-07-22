@@ -1,16 +1,24 @@
-const express=require('express');
+const path = require('path');
+
+const express = require('express');
+
+const adminController = require('../controllers/admin');
+
 const router = express.Router();
 
-// /admin/add-product =>GET
-router.get('/add-product',(req,res,next)=>{
-    console.log("in add-product middleware");
-    res.send('<form action="/admin/add-product" method="POST"><input type="text" name="title" placeholder="product"><input type="text" name="size" placeholder="size"><button type="submit">Add Product</button></form>');
-});
+// /admin/add-product => GET
+router.get('/add-product', adminController.getAddProduct);
 
-// /admin/add-product =>POST
-router.post('/add-product',(req,res,next)=>{
-    console.log(req.body);
-    res.redirect("/");
-});
+// /admin/products => GET
+router.get('/products', adminController.getProducts);
 
-module.exports=router;
+// /admin/add-product => POST
+router.post('/add-product', adminController.postAddProduct);
+
+router.get('/edit-product/:productId',adminController.getEditProduct);
+
+router.post('/edit-product',adminController.postEditProduct);
+
+router.post('/delete-product/:productId',adminController.PostdeleteProduct);
+
+module.exports = router;
