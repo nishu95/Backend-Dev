@@ -6,6 +6,9 @@ const express = require('express');  // installed body praser for this (npm inst
 const bodyParser = require('body-parser'); 
 
 const errorController = require('./controllers/error');
+const db = require('./util/database');
+
+
 
 const app = express();
 
@@ -25,4 +28,5 @@ app.use(errorController.get404);
 
 app.listen(8000); 
 
-// (npm install --save mysql2) for using sql in node
+// (npm install --save mysql2) for using sql in node 
+// to connect node to database create a new folder in util folder in the project
