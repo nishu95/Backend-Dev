@@ -6,9 +6,8 @@ const express = require('express');  // installed body praser for this (npm inst
 const bodyParser = require('body-parser'); 
 
 const errorController = require('./controllers/error');
-const db = require('./util/database');
 
-
+const sequelize = require('./util/database');
 
 const app = express();
 
@@ -26,7 +25,26 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(8000); 
+// to create table in database w.r.t the define statements there (in models)
+
+sequelize.authenticate()
+ .then((result)=> console.log('Connection has been established successfully.'))
+.catch ((error) =>{
+  console.error('Unable to connect to the database:', error);
+});
+
+sequelize
+    .sync({force:true})
+    .then(result =>{
+        //console.log(result);
+        app.listen(8000);
+    })
+    .catch(err => {
+        console.log(err);
+    });        
+
+ 
 
 // (npm install --save mysql2) for using sql in node 
-// to connect node to database create a new folder in util folder in the project
+// to connect node to database createxite a new folder in util folder in the project
+// (npm install --save sequelize)

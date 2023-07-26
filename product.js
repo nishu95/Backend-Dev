@@ -1,3 +1,74 @@
+// for sequelize system
+
+const Sequelize = require('sequelize');
+
+const sequelize = require('../util/database');
+
+const Product = sequelize.define('product',{
+  id:{
+    type:Sequelize.INTEGER,
+    autoIncrement:true,
+    allowNull:false,
+    primaryKey:true
+  },
+  title: Sequelize.STRING,
+  price: {
+    type: Sequelize.DOUBLE,
+    allowNull:false
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    allowNull:false
+  },
+  description: {
+    type:Sequelize.STRING,
+    allowNull:false
+  }
+});
+
+module.exports = Product;
+
+
+/*
+// for database system
+const db = require('../util/database');
+
+const Cart = require('./cart');
+
+module.exports = class Product {
+  constructor(id,title, imageUrl, description, price) {
+    this.id=id;
+    this.title = title;
+    this.imageUrl = imageUrl;
+    this.description = description;
+    this.price = price;
+  }
+
+  save() {
+    return db.execute('INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)',
+    [this.title,this.price,this.description,this.imageUrl] );
+  }
+
+  static deleteproductbyID(id) {
+    return db.execute('DELETE FROM products WHERE products.id=?',[id]);
+  }
+
+  static fetchAll() {
+    return db.execute('SELECT * FROM products');      // returning, so we can use this promise somewhere else
+  }
+
+
+  static findById(id){
+    return db.execute('SELECT * FROM products WHERE products.id=?',[id]);
+  }
+
+};
+
+*/
+
+
+/*
+// for file system
 const fs = require('fs');
 const path = require('path');
 const Cart = require('./cart');
@@ -53,7 +124,7 @@ module.exports = class Product {
       const updatedProducts = products.filter(prod => prod.id !== id);
       fs.writeFile(p,JSON.stringify(updatedProducts),err => {
         if(!err){
-          Cart.deleteProduct(id,product.price);
+          Cart.deleteProductbyID(id,product.price);
         }
       })
     });
@@ -71,3 +142,4 @@ module.exports = class Product {
     });
   }
 };
+*/
