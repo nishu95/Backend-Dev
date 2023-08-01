@@ -1,69 +1,71 @@
 const form=document.getElementById('form');
-form.addEventListener('submit',addUser);
-const userList=document.getElementById('userList');
+form.addEventListener('submit',operation);
+const userList = document.getElementById('list');
 userList.addEventListener('click',change);
 
-// function to user in database and linn the list
-async function addUser(event){
-    event.preventDefault();
-    console.log("inside adduser function");
+async function operation(e){
+    e.preventDefault();
+    console.log("inside adding operation function");
+
     const obj={
-      userName:event.target.name.value,
-      phoneNumber:event.target.phone.value,
-      email:event.target.email.value
+        expense:e.target.exp.value,
+        description:e.target.desc.value,
+        category:e.target.cat.value
     }
+    console.log(obj);
+
     try{
-        const user= await axios.post('http://localhost:7000/add-user',obj);
-        addToUserList(user.data);
+        const newData = await axios.post('http://localhost:7100/expense',obj);
+        addToList(newData.data);
         form.reset();
-
-    }catch(e){console.log(e);}
+    }catch(err){console.log(err);}
 }
 
-// function to add user data to the frontend list
-function addToUserList(userData){
-
-    console.log('inside show appointment function');
-    const newUser = document.createElement('li');
-    newUser.id=userData.id;
-    newUser.innerHTML = `${userData.userName} ${userData.phoneNumber} ${userData.email}
-    <button class="edit btn-sm btn-dark m-1">Edit</button> <button class="delete btn-sm btn-danger m-1">Delete</button>`;
-    userList.append(newUser);
-   
+function addToList(object){
+    const li = document.createElement('li');
+    li.id = object.id;
+    li.innerHTML = `${object.expense}-${object.description}-${object.category}
+    <button class="edit btn-sm">EDIT</button> <button class="delete btn-sm">DELETE</button>`;
+    userList.appendChild(li);
 }
 
-window.addEventListener('DOMContentLoaded',async ()=>{
+document.addEventListener('DOMContentLoaded',async ()=>{
     try{
-        const users = await axios.get('http://localhost:7000/add-user');
-        for(let i=0;i<users.data.length;i++){
-            addToUserList(users.data[i]);
+        const oldDatalist = await axios.get('http://localhost:7100/expense');
+        for(let i=0;i<oldDatalist.data.length;i++){
+            addToList(oldDatalist.data[i]);
         }
-    }catch(e){console.log(e)}
+    }
+    catch(err){console.log(err);}
     
 });
 
 async function change(e){
     e.preventDefault();
-    const li=e.target.parentElement;
-    userId=li.id;
+    const li= e.target.parentElement;
+    const userId=li.id;
+
     if(e.target.classList.contains('delete')){
         console.log(li);
-        userList.removeChild(li);
         try{
-            await axios.delete(`http://localhost:7000/delete/${userId}`);
-        }catch(e){console.log(e);}
+            await axios.delete(`http://localhost:7100/delete/${userId}`);
+            userList.removeChild(li);
+        }catch(err){console.log(err);}
+        
     }
     if(e.target.classList.contains('edit')){
+        console.log(li);
         try{
-            const res = await axios.get(`http://localhost:7000/edit/${userId}`);
-            document.getElementById('name').value = res.data.userName;
-            document.getElementById('email').value = res.data.email;
-            document.getElementById('phone').value = res.data.phoneNumber;
+            const res = await axios.get(`http://localhost:7100/edit/${userId}`);
+            console.log("res.data is:",res.data);
+            document.getElementById('exp').value = res.data.expense;
+            document.getElementById('desc').value = res.data.description;
+            document.getElementById('cat').value = res.data.category;
 
-            await axios.delete(`http://localhost:7000/delete/${userId}`);
+            await axios.delete(`http://localhost:7100/delete/${userId}`);
             userList.removeChild(li);
 
-        }catch(e){console.log(e);}
+        }catch(err){console.log(err);}
     }
-    
-} 
+
+}

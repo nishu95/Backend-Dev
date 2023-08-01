@@ -1,14 +1,22 @@
 {
-  "name": "appointment_app",
+  "name": "full-stack-expense-tarcker-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "expense tracker",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
   },
-  "author": "nitish",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nishu95/2.5-3hr-javascript-project.git"
+  },
+  "author": "nitish panwar",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nishu95/2.5-3hr-javascript-project/issues"
+  },
+  "homepage": "https://github.com/nishu95/2.5-3hr-javascript-project#readme",
   "devDependencies": {
     "nodemon": "^3.0.1"
   },

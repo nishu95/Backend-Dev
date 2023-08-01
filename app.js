@@ -1,22 +1,21 @@
 const express = require('express');
 const app = express();
+const sequelize = require('./utils/database');
+const cors = require('cors');
+const projectRoute = require('./routes/expenseRoutes');
 const bodyParser = require('body-parser');
-const sequelize = require('./util/database');
-const projectRoutes = require('./routes/appointment_routes');
-var cors=require('cors');
 
 app.use(cors());
+
 app.use(bodyParser.json({extended: false}));
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(projectRoutes);
+
+app.use(projectRoute);
 
 sequelize.sync()
     .then(()=>{
         console.log("table created successfully");
-        app.listen(7000);
+        app.listen(7100);
     })
-    .catch(err=>{console.log("unable to connect to database:",err)});
-    
-
-    
+    .catch((err)=>{console.log(err);})
 
