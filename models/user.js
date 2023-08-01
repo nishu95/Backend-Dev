@@ -1,21 +1,25 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 
-const User = sequelize.define('user',{
+const appointmentData = sequelize.define('user',{
     id:{
-        type:Sequelize.INTEGER,
-        primaryKey:true,
-        autoIncrement:true,
-        allowNull:false
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
     },
-    name:{
-        type:Sequelize.STRING,
-        allowNull:false
+    userName:{
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    phoneNumber:{
+        type: Sequelize.STRING,
+        unique: true
     },
     email:{
-        type:Sequelize.STRING,
-        allowNull:false
+        type: Sequelize.STRING,
+        unique: true
     }
 });
 
-module.exports = User;
+module.exports = appointmentData;
