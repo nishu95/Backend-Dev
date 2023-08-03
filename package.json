@@ -1,22 +1,14 @@
 {
-  "name": "full-stack-expense-tarcker-app",
+  "name": "node-js-test-project-1",
   "version": "1.0.0",
-  "description": "expense tracker",
+  "description": "node js test project 1",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nishu95/2.5-3hr-javascript-project.git"
-  },
   "author": "nitish panwar",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nishu95/2.5-3hr-javascript-project/issues"
-  },
-  "homepage": "https://github.com/nishu95/2.5-3hr-javascript-project#readme",
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
